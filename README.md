@@ -30,6 +30,7 @@ No need to remember things as much!
 [Rendering an animation](https://www.silviasellan.com/posts/blender_videos/),
 [Rendering with Scripts](https://www.silviasellan.com/posts/blender_course_scripting/)
 * [Hsueh-Ti Derek Liu's BlenderToolbox](https://github.com/HTDerekLiu/BlenderToolbox)
+* [Nicole Feng's Written tutorial](https://nzfeng.github.io/docs/RenderingGeometryInBlender.pdf)
 * [Shader Encyclopedia for Cycles](https://www.blenderguru.com/articles/cycles-shader-encyclopedia)
 
 ## Hotkeys
