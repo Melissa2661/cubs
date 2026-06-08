@@ -1,12 +1,9 @@
 import bpy
 from mathutils import Vector
 
-# See general_bsdf.py for the associated shader node
 
-context = bpy.context
-obj = context.object
-
-def setup_object_colour(obj=None):
+# See general_bsdf.py for the associated shader node\
+def setup_object_colour(obj=None, colour=(1, 1, 1, 1)):
     """
     Function that creates the custom attribute required by the GeneralBSDF material.
     """
@@ -19,7 +16,7 @@ def setup_object_colour(obj=None):
     #
     # Create the colour attribute
     if attr_name not in obj:
-        obj[attr_name] = Vector((1, 1, 1, 1))
+        obj[attr_name] = colour
     #
     # Set some properties so that the colour can be edited from the UI
     ui = obj.id_properties_ui(attr_name)
