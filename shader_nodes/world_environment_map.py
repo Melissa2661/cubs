@@ -3,13 +3,11 @@ import mathutils
 import os
 import typing
 
-# NOTE: you must first load the images used for the enviroment map:
-# for options in ["city.exr", "interior.exr", "forest.exr"]:
-#     env_light_path = bpy.context.preferences.studio_lights[options].path
-#     im = bpy.data.images.load(env_light_path, check_existing=True)
-# from shader_nodes import world_environment_map
-# ...
 
+# NOTE: you must load the images used for the enviroment map in your code BEFORE importing this file:
+# for option in ["city.exr", "courtyard.exr", "forest.exr", "interior.exr", "night.exr", "studio.exr", "sunrise.exr", "sunset.exr"]:
+#     env_light_path = bpy.context.preferences.studio_lights[option].path
+#     im = bpy.data.images.load(env_light_path, check_existing=True)
 
 world = bpy.data.worlds["World"]
 if bpy.app.version < (5, 0, 0):
@@ -50,13 +48,13 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     background = shader_nodetree.nodes.new("ShaderNodeBackground")
     background.name = "Background"
     # Strength
-    background.inputs[1].default_value = 0.4
+    background.inputs[1].default_value = 0.30000001192092896
 
     # Node Environment Texture
     environment_texture = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
     environment_texture.name = "Environment Texture"
-    if "interior.exr" in bpy.data.images:
-        environment_texture.image = bpy.data.images["interior.exr"]
+    if "courtyard.exr" in bpy.data.images:
+        environment_texture.image = bpy.data.images["courtyard.exr"]
     environment_texture.image_user.frame_current = 1
     environment_texture.image_user.frame_duration = 1
     environment_texture.image_user.frame_offset = -1
@@ -72,9 +70,9 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     # Node Environment Texture.001
     environment_texture_001 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
     environment_texture_001.name = "Environment Texture.001"
-    if "city.exr" in bpy.data.images:
-        environment_texture_001.image = bpy.data.images["city.exr"]
-    environment_texture_001.image_user.frame_current = 0
+    if "forest.exr" in bpy.data.images:
+        environment_texture_001.image = bpy.data.images["forest.exr"]
+    environment_texture_001.image_user.frame_current = 1
     environment_texture_001.image_user.frame_duration = 1
     environment_texture_001.image_user.frame_offset = -1
     environment_texture_001.image_user.frame_start = 1
@@ -89,11 +87,11 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     # Node Environment Texture.002
     environment_texture_002 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
     environment_texture_002.name = "Environment Texture.002"
-    if "forest.exr" in bpy.data.images:
-        environment_texture_002.image = bpy.data.images["forest.exr"]
-    environment_texture_002.image_user.frame_current = 0
-    environment_texture_002.image_user.frame_duration = 100
-    environment_texture_002.image_user.frame_offset = 0
+    if "city.exr" in bpy.data.images:
+        environment_texture_002.image = bpy.data.images["city.exr"]
+    environment_texture_002.image_user.frame_current = 1
+    environment_texture_002.image_user.frame_duration = 1
+    environment_texture_002.image_user.frame_offset = -1
     environment_texture_002.image_user.frame_start = 1
     environment_texture_002.image_user.tile = 0
     environment_texture_002.image_user.use_auto_refresh = False
@@ -103,12 +101,102 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     # Vector
     environment_texture_002.inputs[0].default_value = (0.0, 0.0, 0.0)
 
+    # Node Environment Texture.003
+    environment_texture_003 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
+    environment_texture_003.name = "Environment Texture.003"
+    if "interior.exr" in bpy.data.images:
+        environment_texture_003.image = bpy.data.images["interior.exr"]
+    environment_texture_003.image_user.frame_current = 1
+    environment_texture_003.image_user.frame_duration = 1
+    environment_texture_003.image_user.frame_offset = -1
+    environment_texture_003.image_user.frame_start = 1
+    environment_texture_003.image_user.tile = 0
+    environment_texture_003.image_user.use_auto_refresh = False
+    environment_texture_003.image_user.use_cyclic = False
+    environment_texture_003.interpolation = 'Linear'
+    environment_texture_003.projection = 'EQUIRECTANGULAR'
+    # Vector
+    environment_texture_003.inputs[0].default_value = (0.0, 0.0, 0.0)
+
+    # Node Environment Texture.004
+    environment_texture_004 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
+    environment_texture_004.name = "Environment Texture.004"
+    if "night.exr" in bpy.data.images:
+        environment_texture_004.image = bpy.data.images["night.exr"]
+    environment_texture_004.image_user.frame_current = 1
+    environment_texture_004.image_user.frame_duration = 1
+    environment_texture_004.image_user.frame_offset = -1
+    environment_texture_004.image_user.frame_start = 1
+    environment_texture_004.image_user.tile = 0
+    environment_texture_004.image_user.use_auto_refresh = False
+    environment_texture_004.image_user.use_cyclic = False
+    environment_texture_004.interpolation = 'Linear'
+    environment_texture_004.projection = 'EQUIRECTANGULAR'
+    # Vector
+    environment_texture_004.inputs[0].default_value = (0.0, 0.0, 0.0)
+
+    # Node Environment Texture.005
+    environment_texture_005 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
+    environment_texture_005.name = "Environment Texture.005"
+    if "studio.exr" in bpy.data.images:
+        environment_texture_005.image = bpy.data.images["studio.exr"]
+    environment_texture_005.image_user.frame_current = 1
+    environment_texture_005.image_user.frame_duration = 1
+    environment_texture_005.image_user.frame_offset = -1
+    environment_texture_005.image_user.frame_start = 1
+    environment_texture_005.image_user.tile = 0
+    environment_texture_005.image_user.use_auto_refresh = False
+    environment_texture_005.image_user.use_cyclic = False
+    environment_texture_005.interpolation = 'Linear'
+    environment_texture_005.projection = 'EQUIRECTANGULAR'
+    # Vector
+    environment_texture_005.inputs[0].default_value = (0.0, 0.0, 0.0)
+
+    # Node Environment Texture.006
+    environment_texture_006 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
+    environment_texture_006.name = "Environment Texture.006"
+    if "sunrise.exr" in bpy.data.images:
+        environment_texture_006.image = bpy.data.images["sunrise.exr"]
+    environment_texture_006.image_user.frame_current = 1
+    environment_texture_006.image_user.frame_duration = 1
+    environment_texture_006.image_user.frame_offset = -1
+    environment_texture_006.image_user.frame_start = 1
+    environment_texture_006.image_user.tile = 0
+    environment_texture_006.image_user.use_auto_refresh = False
+    environment_texture_006.image_user.use_cyclic = False
+    environment_texture_006.interpolation = 'Linear'
+    environment_texture_006.projection = 'EQUIRECTANGULAR'
+    # Vector
+    environment_texture_006.inputs[0].default_value = (0.0, 0.0, 0.0)
+
+    # Node Environment Texture.007
+    environment_texture_007 = shader_nodetree.nodes.new("ShaderNodeTexEnvironment")
+    environment_texture_007.name = "Environment Texture.007"
+    if "sunset.exr.001" in bpy.data.images:
+        environment_texture_007.image = bpy.data.images["sunset.exr.001"]
+    environment_texture_007.image_user.frame_current = 1
+    environment_texture_007.image_user.frame_duration = 1
+    environment_texture_007.image_user.frame_offset = -1
+    environment_texture_007.image_user.frame_start = 1
+    environment_texture_007.image_user.tile = 0
+    environment_texture_007.image_user.use_auto_refresh = False
+    environment_texture_007.image_user.use_cyclic = False
+    environment_texture_007.interpolation = 'Linear'
+    environment_texture_007.projection = 'EQUIRECTANGULAR'
+    # Vector
+    environment_texture_007.inputs[0].default_value = (0.0, 0.0, 0.0)
+
     # Set locations
-    shader_nodetree.nodes["World Output"].location = (300.0, 300.0)
-    shader_nodetree.nodes["Background"].location = (10.0, 300.0)
-    shader_nodetree.nodes["Environment Texture"].location = (-317.1870422363281, 300.22479248046875)
-    shader_nodetree.nodes["Environment Texture.001"].location = (-323.61712646484375, 49.560142517089844)
-    shader_nodetree.nodes["Environment Texture.002"].location = (-317.9209899902344, 545.8694458007812)
+    shader_nodetree.nodes["World Output"].location = (282.2548828125, 355.6393127441406)
+    shader_nodetree.nodes["Background"].location = (-7.7451171875, 355.6393127441406)
+    shader_nodetree.nodes["Environment Texture"].location = (-334.9321594238281, 355.8641052246094)
+    shader_nodetree.nodes["Environment Texture.001"].location = (-332.60797119140625, 105.19945526123047)
+    shader_nodetree.nodes["Environment Texture.002"].location = (-335.6661071777344, 601.5087890625)
+    shader_nodetree.nodes["Environment Texture.003"].location = (-609.8135375976562, 606.7267456054688)
+    shader_nodetree.nodes["Environment Texture.004"].location = (-606.4789428710938, 356.0068359375)
+    shader_nodetree.nodes["Environment Texture.005"].location = (-607.5599365234375, 108.62222290039062)
+    shader_nodetree.nodes["Environment Texture.006"].location = (-871.62451171875, 431.4305419921875)
+    shader_nodetree.nodes["Environment Texture.007"].location = (-871.5357055664062, 189.13282775878906)
 
     # Set dimensions
     shader_nodetree.nodes["World Output"].width  = 140.0
@@ -126,6 +214,21 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     shader_nodetree.nodes["Environment Texture.002"].width  = 240.0
     shader_nodetree.nodes["Environment Texture.002"].height = 100.0
 
+    shader_nodetree.nodes["Environment Texture.003"].width  = 240.0
+    shader_nodetree.nodes["Environment Texture.003"].height = 100.0
+
+    shader_nodetree.nodes["Environment Texture.004"].width  = 240.0
+    shader_nodetree.nodes["Environment Texture.004"].height = 100.0
+
+    shader_nodetree.nodes["Environment Texture.005"].width  = 240.0
+    shader_nodetree.nodes["Environment Texture.005"].height = 100.0
+
+    shader_nodetree.nodes["Environment Texture.006"].width  = 240.0
+    shader_nodetree.nodes["Environment Texture.006"].height = 100.0
+
+    shader_nodetree.nodes["Environment Texture.007"].width  = 240.0
+    shader_nodetree.nodes["Environment Texture.007"].height = 100.0
+
 
     # Initialize shader_nodetree links
 
@@ -134,9 +237,9 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
         shader_nodetree.nodes["Background"].outputs[0],
         shader_nodetree.nodes["World Output"].inputs[0]
     )
-    # environment_texture_001.Color -> background.Color
+    # environment_texture_002.Color -> background.Color
     shader_nodetree.links.new(
-        shader_nodetree.nodes["Environment Texture.001"].outputs[0],
+        shader_nodetree.nodes["Environment Texture.002"].outputs[0],
         shader_nodetree.nodes["Background"].inputs[0]
     )
 
