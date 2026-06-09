@@ -1,7 +1,7 @@
 import bpy, mathutils
 
 # This material requires a custom attribute.
-# To automate the creation of this attribute (for an object), see set_object_colour.py
+# To automate the creation of this attribute (for an object), see set_object_properties.py
 
 # Note that when used in a geometry node, the attribute type needs to change from "Object" to "Geometry"
 
