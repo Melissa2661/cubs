@@ -191,6 +191,6 @@ def import_keyframes(joint_obj_path, data):
 
 keyframe_path = ""
 obj_path = ""
-with open(keyframe_path) as data_file:
-    d = json.load(data_file)
-    import_keyframes(obj_path, d)
+# with open(keyframe_path) as data_file:
+#     d = json.load(data_file)
+#     import_keyframes(obj_path, d)
