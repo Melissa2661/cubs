@@ -189,8 +189,8 @@ def import_keyframes(joint_obj_path, data):
     #
     bpy.ops.object.make_links_data(type="MATERIAL")
 
-keyframe_path = ""
-obj_path = ""
-with open(keyframe_path) as data_file:
-    d = json.load(data_file)
-    import_keyframes(obj_path, d)
+
+def load(keyframe_path, obj_path):
+    with open(keyframe_path) as data_file:
+        d = json.load(data_file)
+        import_keyframes(obj_path, d)

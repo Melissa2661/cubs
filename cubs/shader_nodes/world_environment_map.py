@@ -4,29 +4,37 @@ import os
 import typing
 
 
-# NOTE: you must load the images used for the enviroment map in your code BEFORE importing this file:
-# for option in ["city.exr", "courtyard.exr", "forest.exr", "interior.exr", "night.exr", "studio.exr", "sunrise.exr", "sunset.exr"]:
-#     env_light_path = bpy.context.preferences.studio_lights[option].path
-#     im = bpy.data.images.load(env_light_path, check_existing=True)
-
-world = bpy.data.worlds["World"]
-if bpy.app.version < (5, 0, 0):
-    world.use_nodes = True
+def _get_world():
+    return bpy.data.worlds["World"]
 
 
-world.sun_angle = 0.009180432185530663
-world.sun_shadow_filter_radius = 1.0
-world.sun_shadow_jitter_overblur = 0.0
-world.sun_shadow_maximum_resolution = 0.0010000000474974513
-world.sun_threshold = 10.0
-world.use_eevee_finite_volume = False
-world.use_sun_shadow = True
-world.use_sun_shadow_jitter = False
-world.probe_resolution = '1024'
-world.color = (0.05087608844041824, 0.05087608844041824, 0.05087608844041824)
-world.lightgroup = ""
+def _setup_world():
+    world = _get_world()
+    if bpy.app.version < (5, 0, 0):
+        world.use_nodes = True
+    
+    world.sun_angle = 0.009180432185530663
+    world.sun_shadow_filter_radius = 1.0
+    world.sun_shadow_jitter_overblur = 0.0
+    world.sun_shadow_maximum_resolution = 0.0010000000474974513
+    world.sun_threshold = 10.0
+    world.use_eevee_finite_volume = False
+    world.use_sun_shadow = True
+    world.use_sun_shadow_jitter = False
+    world.probe_resolution = '1024'
+    world.color = (0.05087608844041824, 0.05087608844041824, 0.05087608844041824)
+    world.lightgroup = ""
+    
+    
+def _load_env_light_images():
+    for option in ["city.exr", "courtyard.exr", "forest.exr", "interior.exr", "night.exr", "studio.exr", "sunrise.exr",
+                   "sunset.exr"]:
+        env_light_path = bpy.context.preferences.studio_lights[option].path
+        bpy.data.images.load(env_light_path, check_existing=True)
 
-def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
+
+def _shader_nodetree_node_group():
+    world = _get_world()
     """Initialize Shader Nodetree node group"""
     shader_nodetree = world.node_tree
 
@@ -246,10 +254,11 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     return shader_nodetree
 
 
-# Maps node tree creation functions to the node tree
-# name, such that we don't recreate node trees unnecessarily
-node_tree_names : dict[typing.Callable, str] = {}
-
-shader_nodetree = shader_nodetree_node_group(node_tree_names)
-node_tree_names[shader_nodetree_node_group] = shader_nodetree.name
-
+def get_world_environment_map():
+    """
+    Get an environment map shader node, with all built-in light maps pre-loaded.
+    """
+    _setup_world()
+    _load_env_light_images()
+    shader_nodetree = _shader_nodetree_node_group()
+    return shader_nodetree

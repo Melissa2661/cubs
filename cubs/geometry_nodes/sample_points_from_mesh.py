@@ -1,8 +1,9 @@
-import bpy, mathutils
+import bpy
+import mathutils
 
 
 # initialize point_sampling node group
-def point_sampling_node_group():
+def _point_sampling_node_group():
     point_sampling = bpy.data.node_groups.new(type='GeometryNodeTree', name="Point sampling")
     
     point_sampling.color_tag = 'NONE'
@@ -163,11 +164,8 @@ def point_sampling_node_group():
     return point_sampling
 
 
-point_sampling = point_sampling_node_group()
-
-
 # initialize point_to_sphere node group
-def point_to_sphere_node_group():
+def _point_to_sphere_node_group():
     point_to_sphere = bpy.data.node_groups.new(type='GeometryNodeTree', name="Point to Sphere")
     
     point_to_sphere.color_tag = 'NONE'
@@ -262,11 +260,11 @@ def point_to_sphere_node_group():
     return point_to_sphere
 
 
-point_to_sphere = point_to_sphere_node_group()
-
-
 # initialize sample_points_from_mesh node group
-def sample_points_from_mesh_node_group():
+def _sample_points_from_mesh_node_group():
+    point_sampling = _point_sampling_node_group()
+    point_to_sphere = _point_to_sphere_node_group()
+    
     sample_points_from_mesh = bpy.data.node_groups.new(type='GeometryNodeTree', name="Sample Points from Mesh")
     
     sample_points_from_mesh.color_tag = 'NONE'
@@ -391,5 +389,12 @@ def sample_points_from_mesh_node_group():
     return sample_points_from_mesh
 
 
-sample_points_from_mesh = sample_points_from_mesh_node_group()
+def get_sample_points():
+    """
+    | Sample points on the mesh.
+    | Controls: Density, Material to apply, Blue noise vs White noise
+    """
+    
+    sample_points_from_mesh = _sample_points_from_mesh_node_group()
+    return sample_points_from_mesh
 

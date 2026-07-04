@@ -2,7 +2,7 @@ import bpy, mathutils
 
 
 # initialize uneven_terrain node group
-def uneven_terrain_node_group():
+def _uneven_terrain_node_group():
     uneven_terrain = bpy.data.node_groups.new(type='GeometryNodeTree', name="Uneven Terrain")
     
     uneven_terrain.color_tag = 'NONE'
@@ -197,5 +197,7 @@ def uneven_terrain_node_group():
     return uneven_terrain
 
 
-terrain = uneven_terrain_node_group()
+def get_uneven_terrain():
+    terrain = _uneven_terrain_node_group()
+    return terrain
 

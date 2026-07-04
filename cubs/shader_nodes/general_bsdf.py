@@ -5,11 +5,16 @@ import bpy, mathutils
 
 # Note that when used in a geometry node, the attribute type needs to change from "Object" to "Geometry"
 
-mat = bpy.data.materials.new(name="GeneralBSDF")
-mat.use_nodes = True
+
+def _get_mat():
+    mat = bpy.data.materials.new(name="GeneralBSDF")
+    mat.use_nodes = True
+    return mat
+
 
 # initialize GeneralBSDF node group
 def generalbsdf_node_group():
+    mat = _get_mat()
     generalbsdf = mat.node_tree
     # start with a clean node tree
     for node in generalbsdf.nodes:
@@ -114,5 +119,7 @@ def generalbsdf_node_group():
     return generalbsdf
 
 
-generalbsdf = generalbsdf_node_group()
+def get_bsdf():
+    generalbsdf = generalbsdf_node_group()
+    return generalbsdf
 

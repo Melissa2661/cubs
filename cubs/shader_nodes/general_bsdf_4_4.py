@@ -4,43 +4,45 @@ import os
 import typing
 
 
-generalbsdf = bpy.data.materials.new(name="GeneralBSDF")
-if bpy.app.version < (5, 0, 0):
-    generalbsdf.use_nodes = True
+def _setup_general():
+    generalbsdf = bpy.data.materials.new(name="GeneralBSDF")
+    if bpy.app.version < (5, 0, 0):
+        generalbsdf.use_nodes = True
+    
+    generalbsdf.alpha_threshold = 0.5
+    generalbsdf.line_priority = 0
+    generalbsdf.max_vertex_displacement = 0.0
+    generalbsdf.metallic = 0.0
+    generalbsdf.paint_active_slot = 0
+    generalbsdf.paint_clone_slot = 0
+    generalbsdf.pass_index = 0
+    generalbsdf.refraction_depth = 0.0
+    generalbsdf.roughness = 0.4000000059604645
+    generalbsdf.show_transparent_back = True
+    generalbsdf.specular_intensity = 0.5
+    generalbsdf.use_backface_culling = False
+    generalbsdf.use_backface_culling_lightprobe_volume = True
+    generalbsdf.use_backface_culling_shadow = False
+    generalbsdf.use_preview_world = False
+    generalbsdf.use_raytrace_refraction = False
+    generalbsdf.use_screen_refraction = False
+    generalbsdf.use_sss_translucency = False
+    generalbsdf.use_thickness_from_shadow = False
+    generalbsdf.use_transparency_overlap = True
+    generalbsdf.use_transparent_shadow = True
+    generalbsdf.blend_method = 'HASHED'
+    generalbsdf.displacement_method = 'BUMP'
+    generalbsdf.preview_render_type = 'SPHERE'
+    generalbsdf.surface_render_method = 'DITHERED'
+    generalbsdf.thickness_mode = 'SPHERE'
+    generalbsdf.volume_intersection_method = 'FAST'
+    generalbsdf.specular_color = (1.0, 1.0, 1.0)
+    generalbsdf.diffuse_color = (0.800000011920929, 0.800000011920929, 0.800000011920929, 1.0)
+    generalbsdf.line_color = (0.0, 0.0, 0.0, 0.0)
+    return generalbsdf
 
 
-generalbsdf.alpha_threshold = 0.5
-generalbsdf.line_priority = 0
-generalbsdf.max_vertex_displacement = 0.0
-generalbsdf.metallic = 0.0
-generalbsdf.paint_active_slot = 0
-generalbsdf.paint_clone_slot = 0
-generalbsdf.pass_index = 0
-generalbsdf.refraction_depth = 0.0
-generalbsdf.roughness = 0.4000000059604645
-generalbsdf.show_transparent_back = True
-generalbsdf.specular_intensity = 0.5
-generalbsdf.use_backface_culling = False
-generalbsdf.use_backface_culling_lightprobe_volume = True
-generalbsdf.use_backface_culling_shadow = False
-generalbsdf.use_preview_world = False
-generalbsdf.use_raytrace_refraction = False
-generalbsdf.use_screen_refraction = False
-generalbsdf.use_sss_translucency = False
-generalbsdf.use_thickness_from_shadow = False
-generalbsdf.use_transparency_overlap = True
-generalbsdf.use_transparent_shadow = True
-generalbsdf.blend_method = 'HASHED'
-generalbsdf.displacement_method = 'BUMP'
-generalbsdf.preview_render_type = 'SPHERE'
-generalbsdf.surface_render_method = 'DITHERED'
-generalbsdf.thickness_mode = 'SPHERE'
-generalbsdf.volume_intersection_method = 'FAST'
-generalbsdf.specular_color = (1.0, 1.0, 1.0)
-generalbsdf.diffuse_color = (0.800000011920929, 0.800000011920929, 0.800000011920929, 1.0)
-generalbsdf.line_color = (0.0, 0.0, 0.0, 0.0)
-
-def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
+def _shader_nodetree_node_group(generalbsdf):
     """Initialize Shader Nodetree node group"""
     shader_nodetree = generalbsdf.node_tree
 
@@ -162,10 +164,13 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     return shader_nodetree
 
 
-# Maps node tree creation functions to the node tree
-# name, such that we don't recreate node trees unnecessarily
-node_tree_names : dict[typing.Callable, str] = {}
+def get_general_bsdf():
+    """
+    Get a general bsdf.
+    :return: the Material, followed by its ShaderNodeTree
+    """
+    generalbsdf = _setup_general()
+    shader_nodetree = _shader_nodetree_node_group(generalbsdf)
+    return generalbsdf, shader_nodetree
 
-shader_nodetree = shader_nodetree_node_group(node_tree_names)
-node_tree_names[shader_nodetree_node_group] = shader_nodetree.name
 

@@ -2,7 +2,7 @@ import bpy, mathutils
 
 
 # initialize show_point_cloud node group
-def show_point_cloud_node_group():
+def _show_point_cloud_node_group():
     show_point_cloud = bpy.data.node_groups.new(type='GeometryNodeTree', name="Show Point Cloud")
     
     show_point_cloud.color_tag = 'NONE'
@@ -93,5 +93,11 @@ def show_point_cloud_node_group():
     return show_point_cloud
 
 
-show_point_cloud = show_point_cloud_node_group()
+def get_point_cloud_viewer():
+    """
+    | Make a point cloud visible on renders
+    | Controls: Material to apply
+    """
+    show_point_cloud = _show_point_cloud_node_group()
+    return show_point_cloud
 

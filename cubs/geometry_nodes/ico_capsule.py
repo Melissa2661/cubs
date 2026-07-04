@@ -6,7 +6,7 @@ import typing
 # Adapted to use input arguments for length and radius
 
 
-def capsule_of_ico_spheres_1_node_group(node_tree_names: dict[typing.Callable, str]):
+def _capsule_of_ico_spheres_1_node_group():
     """Initialize Capsule of Ico Spheres node group"""
     capsule_of_ico_spheres_1 = bpy.data.node_groups.new(type='GeometryNodeTree', name="Capsule of Ico Spheres")
 
@@ -1326,11 +1326,11 @@ def capsule_of_ico_spheres_1_node_group(node_tree_names: dict[typing.Callable, s
     return capsule_of_ico_spheres_1
 
 
-if __name__ == "__main__":
-    # Maps node tree creation functions to the node tree
-    # name, such that we don't recreate node trees unnecessarily
-    node_tree_names : dict[typing.Callable, str] = {}
-
-    capsule_of_ico_spheres = capsule_of_ico_spheres_1_node_group(node_tree_names)
-    node_tree_names[capsule_of_ico_spheres_1_node_group] = capsule_of_ico_spheres.name
+def get_ico_capsule():
+    """
+    | Get a capsule with icosphere caps and equilateral triangles along the cylinder.
+    | Controls: Length, Radius, Subdivision depth
+    """
+    capsule_of_ico_spheres = _capsule_of_ico_spheres_1_node_group()
+    return capsule_of_ico_spheres
 

@@ -4,44 +4,45 @@ import os
 import typing
 
 
-generalwireframe = bpy.data.materials.new(name="GeneralWireframe")
-if bpy.app.version < (5, 0, 0):
-    generalwireframe.use_nodes = True
+def _setup_wireframe():
+    generalwireframe = bpy.data.materials.new(name="GeneralWireframe")
+    if bpy.app.version < (5, 0, 0):
+        generalwireframe.use_nodes = True
+    
+    generalwireframe.alpha_threshold = 0.5
+    generalwireframe.line_priority = 0
+    generalwireframe.max_vertex_displacement = 0.0
+    generalwireframe.metallic = 0.0
+    generalwireframe.paint_active_slot = 0
+    generalwireframe.paint_clone_slot = 0
+    generalwireframe.pass_index = 0
+    generalwireframe.refraction_depth = 0.0
+    generalwireframe.roughness = 0.4000000059604645
+    generalwireframe.show_transparent_back = True
+    generalwireframe.specular_intensity = 0.5
+    generalwireframe.use_backface_culling = False
+    generalwireframe.use_backface_culling_lightprobe_volume = True
+    generalwireframe.use_backface_culling_shadow = False
+    generalwireframe.use_preview_world = False
+    generalwireframe.use_raytrace_refraction = False
+    generalwireframe.use_screen_refraction = False
+    generalwireframe.use_sss_translucency = False
+    generalwireframe.use_thickness_from_shadow = False
+    generalwireframe.use_transparency_overlap = True
+    generalwireframe.use_transparent_shadow = True
+    generalwireframe.blend_method = 'HASHED'
+    generalwireframe.displacement_method = 'BUMP'
+    generalwireframe.preview_render_type = 'SPHERE'
+    generalwireframe.surface_render_method = 'DITHERED'
+    generalwireframe.thickness_mode = 'SPHERE'
+    generalwireframe.volume_intersection_method = 'FAST'
+    generalwireframe.specular_color = (1.0, 1.0, 1.0)
+    generalwireframe.diffuse_color = (0.800000011920929, 0.800000011920929, 0.800000011920929, 1.0)
+    generalwireframe.line_color = (0.0, 0.0, 0.0, 0.0)
+    return generalwireframe
 
 
-generalwireframe.alpha_threshold = 0.5
-generalwireframe.line_priority = 0
-generalwireframe.max_vertex_displacement = 0.0
-generalwireframe.metallic = 0.0
-generalwireframe.paint_active_slot = 0
-generalwireframe.paint_clone_slot = 0
-generalwireframe.pass_index = 0
-generalwireframe.refraction_depth = 0.0
-generalwireframe.roughness = 0.4000000059604645
-generalwireframe.show_transparent_back = True
-generalwireframe.specular_intensity = 0.5
-generalwireframe.use_backface_culling = False
-generalwireframe.use_backface_culling_lightprobe_volume = True
-generalwireframe.use_backface_culling_shadow = False
-generalwireframe.use_preview_world = False
-generalwireframe.use_raytrace_refraction = False
-generalwireframe.use_screen_refraction = False
-generalwireframe.use_sss_translucency = False
-generalwireframe.use_thickness_from_shadow = False
-generalwireframe.use_transparency_overlap = True
-generalwireframe.use_transparent_shadow = True
-generalwireframe.blend_method = 'HASHED'
-generalwireframe.displacement_method = 'BUMP'
-generalwireframe.preview_render_type = 'SPHERE'
-generalwireframe.surface_render_method = 'DITHERED'
-generalwireframe.thickness_mode = 'SPHERE'
-generalwireframe.volume_intersection_method = 'FAST'
-generalwireframe.specular_color = (1.0, 1.0, 1.0)
-generalwireframe.diffuse_color = (0.800000011920929, 0.800000011920929, 0.800000011920929, 1.0)
-generalwireframe.line_color = (0.0, 0.0, 0.0, 0.0)
-
-
-def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
+def _shader_nodetree_node_group(generalwireframe):
     """Initialize Shader Nodetree node group"""
     shader_nodetree = generalwireframe.node_tree
 
@@ -220,10 +221,11 @@ def shader_nodetree_node_group(node_tree_names: dict[typing.Callable, str]):
     return shader_nodetree
 
 
-# Maps node tree creation functions to the node tree
-# name, such that we don't recreate node trees unnecessarily
-node_tree_names : dict[typing.Callable, str] = {}
-
-shader_nodetree = shader_nodetree_node_group(node_tree_names)
-node_tree_names[shader_nodetree_node_group] = shader_nodetree.name
-
+def get_wireframe_bsdf():
+    """
+    Get a material that shows an object's wireframe.
+    :return: the wireframe Material, followed by its ShaderNodeTree
+    """
+    generalwireframe = _setup_wireframe()
+    shader_nodetree = _shader_nodetree_node_group(generalwireframe)
+    return generalwireframe, shader_nodetree
