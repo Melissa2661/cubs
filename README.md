@@ -3,7 +3,10 @@
 
 # How to use
 
-In general, these can be imported through Blender's text editor. 
+The code is a module that can be used as a part of larger scripts:
+* Clone the repository
+* Run `python -m pip install /path/to/cubs`
+
 However, most scripts (except those for geometry nodes) 
 were written in a way that allows users to paste them into the Python console as well.
 

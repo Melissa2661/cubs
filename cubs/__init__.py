@@ -1,1 +1,1 @@
-from . import geometry_nodes, shader_nodes
+from . import geometry_nodes, shader_nodes, snippets
